@@ -51,16 +51,16 @@ export default {
     width:90%;
 
       .sideLeft, .sideRight{
-        width:10%;
         margin-top: 50px;
         // background: red;
       }
 
       .main{
-        width: 50%;
+        width: auto;
         margin: 50px 20px 0 20px;
         // background: lightblue;
         min-height: 500px;
+        min-width: 360px;
       }
   }
 </style>

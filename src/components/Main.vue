@@ -1,30 +1,52 @@
 <template>
 
-    <v-layout row>
-        <v-flex sm12 sm6>
+    <v-layout column>
+        <v-flex xs12 sm6>
             <v-card>
                 <v-toolbar color="cyan" dark>
-                    <v-toolbar-title>To do List</v-toolbar-title>
+                    <v-toolbar-title>TODO List</v-toolbar-title>
                     </v-toolbar>
-                    <v-list>
+                    <v-list two-line>
                     <v-list-tile >
-                        <v-list-tile-content>
+                        <v-list-tile-content class="textContent">
                             <v-text-field color="cyan" light placeholder="Add new Task" class="inputText" v-model="inputText"></v-text-field>
                         </v-list-tile-content>
                         <v-list-tile-action>
-                            <v-btn @click="addNewTask(inputText)" color="cyan lighthen-2">Add</v-btn>
+                            <v-btn round outline @click="addNewTask(inputText)" color="cyan lighthen-2">Add</v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
                     <template v-for="task in taskList" :v-model="taskList">
                     <v-divider :key="task"></v-divider>
                     <v-list-tile :key="task">
-                        <v-list-tile-content>{{task.name}}</v-list-tile-content>
+                        <v-list-tile-content class="textContent">{{task.name}}</v-list-tile-content>
                         <v-list-tile-action>
-                            <v-btn @click="deleteTask(task)" color="cyan darken-4">Done</v-btn>
+                            <v-btn round outline @click="doTask(task)" color="cyan darken-4">Done</v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
                     </template>
+                    <v-divider></v-divider>
                     </v-list>
+            </v-card>
+            <v-card>
+                <v-toolbar color="lime">
+                    <v-toolbar-title>Done Tasks</v-toolbar-title>
+                </v-toolbar>
+                <v-list two-line>
+                <template v-for="doneTask in doneList" :v-model="doneList">
+                    <v-divider :key="doneTask"></v-divider>         
+                    <v-list-tile :key="doneTask" color="grey lighten-1">
+                        <v-list-tile-content class="crossedText">{{doneTask.name}}</v-list-tile-content>
+                        <v-list-tile-action>
+                            <v-btn round outline @click="unDoneTask(doneTask)" color="cyan" light>Undone</v-btn>
+                        </v-list-tile-action>
+                        &nbsp;
+                        <v-list-tile-action>
+                            <v-btn round outline @click="deleteDoneTask(doneTask)" color="deep-orange accent-3">Delete</v-btn>
+                        </v-list-tile-action>
+                    </v-list-tile>
+                    
+                </template>
+                </v-list>
             </v-card>
         </v-flex>
     </v-layout>
@@ -39,7 +61,11 @@ export default {
             taskList: [
                 {name: 'Task One'},
                 {name: 'Task Two'}
+            ],
+            doneList: [
+                {name: 'Done Task'}
             ]
+
         }
     },
 
@@ -48,8 +74,16 @@ export default {
             this.taskList.push({name: value});
             this.inputText='';
         },
-        deleteTask(task) {
+        doTask(task) {
             this.taskList.splice(this.taskList.indexOf(task.name),1);
+            this.doneList.push(task);
+        },
+        unDoneTask(doneTask) {
+            this.doneList.splice(this.doneList.indexOf(doneTask.name),1);
+            this.taskList.push(doneTask);
+        },
+        deleteDoneTask(doneTask) {
+            this.doneList.splice(this.doneList.indexOf(doneTask.name),1);
         }
     }
 }
@@ -62,8 +96,13 @@ export default {
     }
 
     .inputText{
-        width: 80%;
+        width: 75%;
         padding: 2px;
     }
+
+    .crossedText{
+        text-decoration: line-through;
+    }
+    
 </style>
 
