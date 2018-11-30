@@ -1,4 +1,4 @@
-# todo
+# todo-vuetify
 
 Project used to learn vue and vuetify
 

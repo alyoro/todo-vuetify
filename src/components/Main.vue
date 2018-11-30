@@ -9,10 +9,10 @@
                     <v-list two-line>
                     <v-list-tile >
                         <v-list-tile-content class="textContent">
-                            <v-text-field color="cyan" light placeholder="Add new Task" class="inputText" v-model="inputText"></v-text-field>
+                            <v-text-field color="cyan" @keyup.enter="addNewTask(inputText)" light placeholder="Add new Task" class="inputText" v-model="inputText"></v-text-field>
                         </v-list-tile-content>
                         <v-list-tile-action>
-                            <v-btn round outline @click="addNewTask(inputText)" color="cyan lighthen-2">Add</v-btn>
+                            <v-btn round small fab outline @click="addNewTask(inputText)" color="cyan lighthen-2">Add</v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
                     <template v-for="task in taskList" :v-model="taskList">
@@ -20,7 +20,11 @@
                     <v-list-tile :key="task">
                         <v-list-tile-content class="textContent">{{task.name}}</v-list-tile-content>
                         <v-list-tile-action>
-                            <v-btn round outline @click="doTask(task)" color="cyan darken-4">Done</v-btn>
+                            <v-btn round outline small fab @click="doTask(task)" color="cyan darken-4">Done</v-btn>
+                        </v-list-tile-action>
+                        &nbsp;
+                        <v-list-tile-action>
+                            <v-btn round small fab outline @click="deleteTask(task)" color="deep-orange accent-3">Del</v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
                     </template>
@@ -37,11 +41,11 @@
                     <v-list-tile :key="doneTask" color="grey lighten-1">
                         <v-list-tile-content class="crossedText">{{doneTask.name}}</v-list-tile-content>
                         <v-list-tile-action>
-                            <v-btn round outline @click="unDoneTask(doneTask)" color="cyan" light>Undone</v-btn>
+                            <v-btn round outline small fab @click="unDoneTask(doneTask)" color="cyan" light>Undo</v-btn>
                         </v-list-tile-action>
                         &nbsp;
                         <v-list-tile-action>
-                            <v-btn round outline @click="deleteDoneTask(doneTask)" color="deep-orange accent-3">Delete</v-btn>
+                            <v-btn round outline small fab @click="deleteDoneTask(doneTask)" color="deep-orange accent-3">Del</v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
                     
@@ -78,6 +82,9 @@ export default {
             this.taskList.splice(this.taskList.indexOf(task.name),1);
             this.doneList.push(task);
         },
+        deleteTask(task) {
+            this.taskList.splice(this.taskList.indexOf(task.name),1);
+        },
         unDoneTask(doneTask) {
             this.doneList.splice(this.doneList.indexOf(doneTask.name),1);
             this.taskList.push(doneTask);
@@ -103,6 +110,6 @@ export default {
     .crossedText{
         text-decoration: line-through;
     }
-    
+
 </style>
 
