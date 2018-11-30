@@ -1,5 +1,7 @@
 # todo
 
+Project used to learn vue and vuetify
+
 ## Project setup
 ```
 npm install
