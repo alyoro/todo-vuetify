@@ -1,10 +1,16 @@
 <template>
-
     <v-layout column>
         <v-flex xs12 sm6>
             <v-card>
                 <v-toolbar color="cyan" dark>
                     <v-toolbar-title>TODO List</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                            <v-tooltip v-model="show" bottom>
+                            <v-btn @click="clearLocalStorage()" slot="activator" icon>
+                                <v-icon color="grey lighten-4">clear_all</v-icon>
+                            </v-btn>
+                            <span>Clear your browser list!</span>
+                            </v-tooltip>                    
                     </v-toolbar>
                     <v-list two-line>
                     <v-list-tile >
@@ -47,14 +53,12 @@
                         <v-list-tile-action>
                             <v-btn round outline small fab @click="deleteDoneTask(doneTask)" color="deep-orange accent-3">Del</v-btn>
                         </v-list-tile-action>
-                    </v-list-tile>
-                    
+                    </v-list-tile>                    
                 </template>
                 </v-list>
             </v-card>
         </v-flex>
     </v-layout>
-    
 </template>
 
 <script>
@@ -91,7 +95,32 @@ export default {
         },
         deleteDoneTask(doneTask) {
             this.doneList.splice(this.doneList.indexOf(doneTask.name),1);
+        },
+        clearLocalStorage(){
+            localStorage.removeItem('taskList');
+            localStorage.removeItem('doneList');
+            console.log('Local list cleared!');
         }
+    },
+
+    watch:{
+        taskList: {
+            handler() {
+                localStorage.setItem('taskList', JSON.stringify(this.taskList));
+            },
+            deep: true,
+        },
+        doneList: {
+            handler() {
+                localStorage.setItem('doneList', JSON.stringify(this.doneList));
+            },
+        },
+        deep: true,
+    },
+
+    mounted(){
+        if(localStorage.getItem('taskList')) this.taskList = JSON.parse(localStorage.getItem('taskList'));
+        if(localStorage.getItem('doneList')) this.doneList = JSON.parse(localStorage.getItem('doneList'));
     }
 }
 </script>
@@ -112,4 +141,3 @@ export default {
     }
 
 </style>
-
